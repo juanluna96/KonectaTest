@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'rol_id'
+        'name', 'email', 'password', 'position', 'rol_id'
     ];
 
     /**
@@ -41,14 +41,18 @@ class User extends Authenticatable
 
     public function rol()
     {
-        return $this->hasOne(Rol::class);
+        return $this->hasOne(Rol::class, 'id');
     }
 
     /* ---------------------------- AdminLTE Methods ---------------------------- */
 
     public function adminlte_image()
     {
-        return 'https://picsum.photos/300/300';
+        if (\Auth::user()->image) {
+            return \Auth::user()->image;
+        } else {
+            return 'https://picsum.photos/300/300';
+        }
     }
 
     public function adminlte_desc()
