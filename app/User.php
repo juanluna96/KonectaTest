@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'position', 'rol_id'
+        'name', 'email', 'password', 'image', 'position', 'rol_id'
     ];
 
     /**
@@ -42,7 +42,7 @@ class User extends Authenticatable
 
     public function rol()
     {
-        return $this->hasOne(Rol::class, 'id');
+        return $this->hasOne(Rol::class, 'id', 'rol_id');
     }
 
     /* ---------------------------- AdminLTE Methods ---------------------------- */
