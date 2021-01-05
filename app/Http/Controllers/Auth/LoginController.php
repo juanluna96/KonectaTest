@@ -48,8 +48,8 @@ class LoginController extends Controller
             case "Vendedor":
                 $this->redirectTo = route('users.sellers.home');
                 break;
-            default:
-                $this->redirectTo = route('/');
+            case "Cliente":
+                $this->redirectTo = route('welcome');
                 break;
         }
 

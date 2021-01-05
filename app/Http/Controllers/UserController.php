@@ -11,6 +11,11 @@ use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function admins()
     {
         $admins = User::where('rol_id', '=', 1)->paginate(10);
@@ -39,7 +44,7 @@ class UserController extends Controller
         // Obtener roles
         if (Auth::user()->rol->descripcion == "Admin") {
             $roles = Rol::where('id', '!=', 1)->get(['id', 'descripcion']);
-            return view('users.create', compact('roles'));
+            return view('users.admin.create', compact('roles'));
         } else {
             $roles = Rol::where('id', '>', 2)->get(['id', 'descripcion']);
             return view('users.sellers.create', compact('roles'));
@@ -98,7 +103,7 @@ class UserController extends Controller
     {
         if (Auth::user()->rol->descripcion == "Admin") {
             $roles = Rol::where('id', '!=', 1)->get(['id', 'descripcion']);
-            return view('users.edit', compact('user', 'roles'));
+            return view('users.admin.edit', compact('user', 'roles'));
         } else {
             $roles = Rol::where('id', '>', 2)->get(['id', 'descripcion']);
             return view('users.sellers.edit', compact('user', 'roles'));
