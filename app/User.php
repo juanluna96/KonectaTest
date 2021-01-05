@@ -2,9 +2,10 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -48,20 +49,16 @@ class User extends Authenticatable
 
     public function adminlte_image()
     {
-        if (\Auth::user()->image) {
-            return \Auth::user()->image;
-        } else {
-            return 'https://picsum.photos/300/300';
-        }
+        return '/storage/' . Auth::user()->image;
     }
 
     public function adminlte_desc()
     {
-        return 'That\'s a nice guy';
+        return Auth::user()->position;
     }
 
     public function adminlte_profile_url()
     {
-        return 'profile/username';
+        return 'users/' . Auth::user()->id . '/edit';
     }
 }
