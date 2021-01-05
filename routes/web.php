@@ -19,6 +19,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
+// CRUD USERS
 Route::get('users/admins', 'UserController@admins')->name('users.admins');
 Route::get('users/sellers', 'UserController@sellers')->name('users.sellers');
 Route::get('users/clients', 'UserController@clients')->name('users.clients');
@@ -31,4 +32,6 @@ Route::delete('/users/{user}', 'UserController@destroy')->name('users.destroy');
 Route::get('/users/all', 'UserController@all')->name('users.all');
 Route::get('/search', 'UserController@search')->name('users.search');
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index_admin')->name('home');
+
+Route::get('/home/sellers', 'HomeController@index_seller')->name('users.sellers.home');

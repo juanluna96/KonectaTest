@@ -5,7 +5,7 @@
             <h6 class="font-weight-bold text-uppercase">{{$user->name}}</h6>
             <p class="card-text mb-0">{{$user->position}}</p>
             @if (Request::route()->getName() == 'users.all')
-                {{-- <p class="my-2 font-weight-bold">{{$user->rol->descripcion}}</p>  --}}
+                <p class="my-2 font-weight-bold">{{$user->rol->descripcion}}</p> 
             @endif
             <div class="row justify-content-md-center">
                 <div class="col-md-6">
