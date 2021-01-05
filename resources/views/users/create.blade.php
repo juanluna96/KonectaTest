@@ -22,6 +22,17 @@
                     @enderror
                 </div>
 
+                <div class="form-group">
+                    <label for="position" class="col-form-label text-md-right">{{ __('Cargo') }}</label>
+                    <input id="position" type="text" class="form-control @error('position') is-invalid @enderror" name="position" value="{{ old('position') }}" required autocomplete="position" autofocus>
+
+                    @error('position')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+
                 <div class="row align-items-center">
                     <div class="form-group col-md-6">
                         <label for="position" class="col-form-label text-md-right">{{ __('Cargo') }}</label>

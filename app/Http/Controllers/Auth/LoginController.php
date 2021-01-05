@@ -41,12 +41,18 @@ class LoginController extends Controller
 
     public function redirectTo()
     {
-        if (Auth::user()->rol->descripcion == "Admin") {
-            $this->redirectTo = route('home');
-            return $this->redirectTo;
-        } else {
-            $this->redirectTo = route('users.sellers.home');
-            return $this->redirectTo;
+        switch (Auth::user()->rol->descripcion) {
+            case "Admin":
+                $this->redirectTo = route('home');
+                break;
+            case "Vendedor":
+                $this->redirectTo = route('users.sellers.home');
+                break;
+            default:
+                $this->redirectTo = route('/');
+                break;
         }
+
+        return $this->redirectTo;
     }
 }

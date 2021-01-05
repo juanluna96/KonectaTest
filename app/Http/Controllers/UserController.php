@@ -39,10 +39,11 @@ class UserController extends Controller
         // Obtener roles
         if (Auth::user()->rol->descripcion == "Admin") {
             $roles = Rol::where('id', '!=', 1)->get(['id', 'descripcion']);
+            return view('users.create', compact('roles'));
         } else {
             $roles = Rol::where('id', '>', 2)->get(['id', 'descripcion']);
+            return view('users.sellers.create', compact('roles'));
         }
-        return view('users.create', compact('roles'));
     }
 
     /**
@@ -76,10 +77,14 @@ class UserController extends Controller
 
 
         //Redireccionar
-        if ($data['rol'] == 2) {
-            return redirect()->action('UserController@sellers');
+        if (Auth::user()->rol->descripcion == "Admin") {
+            if ($data['rol'] == 2) {
+                return redirect()->action('UserController@sellers');
+            } else {
+                return redirect()->action('UserController@clients');
+            }
         } else {
-            return redirect()->action('UserController@clients');
+            return redirect()->action("HomeController@index_seller");
         }
     }
 
@@ -93,10 +98,11 @@ class UserController extends Controller
     {
         if (Auth::user()->rol->descripcion == "Admin") {
             $roles = Rol::where('id', '!=', 1)->get(['id', 'descripcion']);
+            return view('users.edit', compact('user', 'roles'));
         } else {
             $roles = Rol::where('id', '>', 2)->get(['id', 'descripcion']);
+            return view('users.sellers.edit', compact('user', 'roles'));
         }
-        return view('users.edit', compact('user', 'roles'));
     }
 
     /**
@@ -157,10 +163,17 @@ class UserController extends Controller
         $user->update();
 
         // Redireccionar
-        if ($request['rol'] == 2) {
-            return redirect()->action('UserController@sellers');
-        } else {
-            return redirect()->action('UserController@clients');
+        switch (Auth::user()->rol->descripcion) {
+            case 'Admin':
+                if ($request['rol'] == 2) {
+                    return redirect()->action('UserController@sellers');
+                } else {
+                    return redirect()->action('UserController@clients');
+                }
+                break;
+            case 'Vendedor':
+                return redirect()->action('HomeController@index_seller');
+                break;
         }
     }
 
@@ -174,14 +187,22 @@ class UserController extends Controller
     {
         // Borrar antigua imagen del servidor
         $url_imagen = public_path('storage/' . $user->image);
-        if (file_exists($url_imagen)) {
+        if (file_exists($url_imagen) && ($user->image != 'storage/upload-avatar/default.png')) {
             @unlink($url_imagen);
         }
 
         // Borrar de la BD
         $user->delete();
 
-        return redirect()->action('UserController@home');
+        // Redireccionar
+        switch (Auth::user()->rol->descripcion) {
+            case 'Admin':
+                return redirect()->action('UserController@index_admin');
+                break;
+            case 'Vendedor':
+                return redirect()->action('HomeController@index_seller');
+                break;
+        }
     }
 
     public function all()

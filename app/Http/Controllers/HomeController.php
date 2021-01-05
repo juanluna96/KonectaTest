@@ -32,7 +32,7 @@ class HomeController extends Controller
 
     public function index_seller()
     {
-        $clients = User::where('rol_id', '=', 3)->paginate();
+        $clients = User::where('rol_id', '=', 3)->paginate(10);
         return view('users.sellers.home', compact('clients'));
     }
 }
