@@ -29,6 +29,7 @@ Sistema de administración según el rol de los usuarios:
 > composer install
 - Digitamos el comando:
 > npm install
+- Nos dirigimos al archivo .env en la carpeta raíz y modificamos los datos del BD, usuario, contraseña, etc.
 - Abrimos el Xampp e iniciamos los servicios de MYSQL y de Apache.
 - Digitamos el comando: 
 > php artisan migrate:fresh --seed
